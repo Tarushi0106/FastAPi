@@ -1,0 +1,22 @@
+name: Docker Image Build & Push
+
+on: 
+  push:
+    branches:
+      - main  # Change this to your primary branch if different
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKERTOKEN }} | docker login -u "tarushichaudhary" --password-stdin
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t tarushichaudhary/fastapi-app:latest .
+          docker push tarushichaudhary/fastapi-app:latest
